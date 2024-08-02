@@ -1,13 +1,9 @@
-# Project Title
+# Employee app for inexsoft
 
-Welcome to the Project Title! This project aims to [briefly describe the purpose of your project, e.g., "teach basic programming skills through an interactive game"]. Follow the instructions below to get started.
-
+Welcome to the employee app!
 ## Getting Started
 
-### Prerequisites
 
-Before you start, ensure you have the following installed:
-- [List any dependencies, e.g., programming language, libraries, frameworks]
 
 ### Installation
 
