@@ -27,13 +27,21 @@ namespace EmployeeApp.Controllers
 
         public IActionResult EmployeeDetails(int id)
         {
-            EmployeeServices employeeServices = new EmployeeServices();
-            var app = employeeServices.GetEmployeeAndSalary(id);
-            if (app == null)
+            EmployeeViewModel app = new EmployeeViewModel();
+            try
             {
-                return RedirectToAction("AdminPanel");
+                EmployeeServices employeeServices = new EmployeeServices();
+                app = employeeServices.GetEmployeeAndSalary(id);
+                if (app == null)
+                {
+                    return RedirectToAction("AdminPanel");
+                }
+                return View(app);
+            }catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View(app);
             }
-            return View(app);
         }
 
         public IActionResult AddEmployee()

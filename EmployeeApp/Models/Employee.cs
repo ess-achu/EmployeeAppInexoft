@@ -24,12 +24,12 @@ namespace EmployeeApp.Models
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public float BasicPay { get; set; }
-        public float Allowence { get; set; }
-        public float ProvidentFund { get; set; }
-        public float Bonus { get; set; }
+        public double BasicPay { get; set; }
+        public double Allowence { get; set; }
+        public double ProvidentFund { get; set; }
+        public double Bonus { get; set; }
         public string SalaryTier { get; set; }
-        public float GrossPay { get; set; }
+        public double GrossPay { get; set; }
     }
 
     public class EmployeeViewModel

@@ -4,6 +4,14 @@ namespace EmployeeApp.Services
 {
     public class EmployeeServices
     {
+        private readonly bool _dbCallEnabled = true;
+        private readonly DbServices _dbServices;
+
+        public EmployeeServices()
+        {
+            _dbServices = new DbServices();
+        }
+
         public List<Employee> GetEmployees()
         {
             return AllEmployees();
@@ -11,84 +19,96 @@ namespace EmployeeApp.Services
 
         public EmployeeViewModel GetEmployeeAndSalary(int empId)
         {
-            Employee employee = AllEmployees().FirstOrDefault(s => s.EmployeeId == empId);
-
-            if(employee == null)
+            try
             {
-                return null;
+                Employee employee = AllEmployees().FirstOrDefault(s => s.EmployeeId == empId);
+
+                if (employee == null)
+                {
+                    return null;
+                }
+
+                Salary salary = AllSalaries().FirstOrDefault(s => s.EmployeeId == empId);
+
+                if (salary == null)
+                {
+                    return null;
+                }
+
+                EmployeeViewModel employeeViewModel = new EmployeeViewModel
+                {
+                    Employee = employee,
+                    Salary = salary,
+                };
+                return employeeViewModel;
+            }catch (Exception ex)
+            {
+                throw;
             }
-
-            Salary salary = AllSalaries().FirstOrDefault(s => s.EmployeeId == empId);
-
-            if (salary == null)
-            {
-                return null;
-            }
-
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel
-            {
-                Employee = employee,
-                Salary = salary,
-            };
-            return employeeViewModel;
         }
 
         private List<Employee> AllEmployees()
         {
-            List<Employee> employees = new List<Employee>
+            try
             {
-                new Employee
+                List<Employee> employees = new List<Employee>
                 {
-                    EmployeeId = 101,
-                    EmployeeName = "Alice Johnson",
-                    Manager = "Robert Smith",
-                    Department = "IT",
-                    JoiningDate = "2021-05-20",
-                    PhoneNumber = "1234567890",
-                    Nationality = "American"
-                },
-                new Employee
-                {
-                    EmployeeId = 102,
-                    EmployeeName = "Bob Brown",
-                    Manager = "Linda White",
-                    Department = "HR",
-                    JoiningDate = "2019-03-14",
-                    PhoneNumber = "2345678901",
-                    Nationality = "Canadian"
-                },
-                new Employee
-                {
-                    EmployeeId = 103,
-                    EmployeeName = "Charlie Davis",
-                    Manager = "John Doe",
-                    Department = "Finance",
-                    JoiningDate = "2020-11-01",
-                    PhoneNumber = "3456789012",
-                    Nationality = "British"
-                },
-                new Employee
-                {
-                    EmployeeId = 104,
-                    EmployeeName = "David Evans",
-                    Manager = "Mary Johnson",
-                    Department = "Marketing",
-                    JoiningDate = "2018-07-23",
-                    PhoneNumber = "4567890123",
-                    Nationality = "Australian"
-                },
-                new Employee
-                {
-                    EmployeeId = 105,
-                    EmployeeName = "Emma Green",
-                    Manager = "James Brown",
-                    Department = "Sales",
-                    JoiningDate = "2017-01-16",
-                    PhoneNumber = "5678901234",
-                    Nationality = "New Zealander"
-                }
-            };
-            return employees;
+                    new Employee
+                    {
+                        EmployeeId = 101,
+                        EmployeeName = "Alice Johnson",
+                        Manager = "Robert Smith",
+                        Department = "IT",
+                        JoiningDate = "2021-05-20",
+                        PhoneNumber = "1234567890",
+                        Nationality = "American"
+                    },
+                    new Employee
+                    {
+                        EmployeeId = 102,
+                        EmployeeName = "Bob Brown",
+                        Manager = "Linda White",
+                        Department = "HR",
+                        JoiningDate = "2019-03-14",
+                        PhoneNumber = "2345678901",
+                        Nationality = "Canadian"
+                    },
+                    new Employee
+                    {
+                        EmployeeId = 103,
+                        EmployeeName = "Charlie Davis",
+                        Manager = "John Doe",
+                        Department = "Finance",
+                        JoiningDate = "2020-11-01",
+                        PhoneNumber = "3456789012",
+                        Nationality = "British"
+                    },
+                    new Employee
+                    {
+                        EmployeeId = 104,
+                        EmployeeName = "David Evans",
+                        Manager = "Mary Johnson",
+                        Department = "Marketing",
+                        JoiningDate = "2018-07-23",
+                        PhoneNumber = "4567890123",
+                        Nationality = "Australian"
+                    },
+                    new Employee
+                    {
+                        EmployeeId = 105,
+                        EmployeeName = "Emma Green",
+                        Manager = "James Brown",
+                        Department = "Sales",
+                        JoiningDate = "2017-01-16",
+                        PhoneNumber = "5678901234",
+                        Nationality = "New Zealander"
+                    }
+                };
+                return _dbCallEnabled ? _dbServices.GetAllEmployeesFromDb() : employees;
+            }catch(Exception ex)
+            {
+                throw;
+            }
         }
         private List<Salary> AllSalaries()
         {
@@ -150,7 +170,7 @@ namespace EmployeeApp.Services
                     GrossPay = 9430
                 }
             };
-            return salaries;
+            return _dbCallEnabled ? _dbServices.GetAllEmployeeSalariesFromDb() : salaries;
         }
     }
 }
